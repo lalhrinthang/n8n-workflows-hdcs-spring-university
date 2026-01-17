@@ -1,0 +1,122 @@
+{
+  "name": "1.2. Chat_Trigger_with_System_Message_Cooking_Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Dr.Cook. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        96,
+        -64
+      ],
+      "id": "17fe273f-e105-4426-8817-0fe8d72d040c",
+      "name": "When chat message received",
+      "webhookId": "0862466b-d01e-4acc-97cf-5a7695eda149",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a cooking assistant. You can cook Asia and European Curry. When the user asks a message, you should tell the curry and step-by-step cooking process, and the required recipes. When the user asks the questions that are not related to cooking, you must reply with polietly and with emoji."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        512,
+        0
+      ],
+      "id": "129551a8-26b2-4c34-b802-9fd07a103314",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        288
+      ],
+      "id": "7df5e22c-c123-4879-bb78-278fa9ec5463",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "mSoNoW6WvuSVmYQy",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        608,
+        288
+      ],
+      "id": "13989094-a0ce-4111-b485-475e1976d8f2",
+      "name": "Simple Memory",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "c4a711cb-4280-486a-9513-c3e5a09dad11",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a6850f89ca602e87af9ed2767340f7e5a3d5921744d584b6b3cb71ef5b315994"
+  },
+  "id": "TBqss0ir4JVDsor3",
+  "tags": []
+}
